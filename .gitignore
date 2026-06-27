@@ -1,0 +1,19 @@
+# Build directories
+cmake-build-*/
+build/
+out/
+
+# Object files & binaries
+*.o
+*.obj
+*.out
+a.out
+
+# Compiled executables (no extension) produced by gcc/make
+stack/TestStack
+stack/stack
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
