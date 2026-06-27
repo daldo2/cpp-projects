@@ -3,7 +3,7 @@ project(stack C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(stack main.c
+add_executable(stack
         TestStack.c
         Stack.h
         Stack.c)
