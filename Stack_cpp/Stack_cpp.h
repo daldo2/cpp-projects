@@ -1,10 +1,14 @@
+#pragma once
 
-#ifndef STACK_STACK_H
-#define STACK_STACK_H
+class Stack_cpp {
+    private:
+        int capacity;
+        int size;
+        int* data;
 
-
-class Stack {
+    Stack_cpp();
+    ~Stack_cpp();
+    void push(int element);
+    int pop();
+    bool is_empty();
 };
-
-
-#endif
