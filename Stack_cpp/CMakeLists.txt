@@ -10,5 +10,4 @@ add_executable(Stack_cpp
         Stack_cpp.cpp
         Stack_cpp.h
         TestStack_cpp.cpp
-        TestStack_cpp.h
 )

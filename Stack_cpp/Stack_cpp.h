@@ -1,7 +1,7 @@
 #pragma once
 
 class Stack_cpp {
-    private:
+    public:
         int capacity;
         int size;
         int* data;
