@@ -7,6 +7,11 @@ Stack_cpp::Stack_cpp() {
     size = 0;
     data = (int*)malloc(sizeof(int)* capacity);
 }
+Stack_cpp::Stack_cpp(const Stack_cpp& other) {
+    capacity = other.capacity;
+    size = other.size;
+    data = (int*)malloc(sizeof(int)* capacity); //Check how it should be coppied exacly
+}
 
 Stack_cpp::~Stack_cpp() {
         free(data);
@@ -40,3 +45,6 @@ int Stack_cpp::pop() {
 bool Stack_cpp::is_empty() {
     return size == 0;
 }
+/* copy constructor
+ * assigment constructor
+*/
