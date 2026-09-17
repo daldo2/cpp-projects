@@ -1,7 +1,6 @@
 #include <cstdio>
-#include <memory>
 #include "Stack_cpp.h"
-#include <assert.h>
+#include <cassert>
 
 static void test_empty() {
     Stack_cpp s;
