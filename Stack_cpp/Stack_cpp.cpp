@@ -6,11 +6,43 @@ Stack_cpp::Stack_cpp() {
     capacity = 4;
     size = 0;
     data = (int*)malloc(sizeof(int)* capacity);
+    if (data == nullptr) {
+        std::cout << "Ups";
+        exit(EXIT_FAILURE);
+    }
 }
 Stack_cpp::Stack_cpp(const Stack_cpp& other) {
-    capacity = other.capacity;
+    capacity = other.size;
     size = other.size;
-    data = (int*)malloc(sizeof(int)* capacity); //Check how it should be coppied exacly
+    data = (int*)malloc(sizeof(int)* capacity);
+    if (size != 0) {
+        if (data == nullptr) {
+            std::cout << "Ups";
+            exit(EXIT_FAILURE);
+        }
+        for (int i = 0; i < size; i++) {
+            data[i] = other.data[i];
+        }
+    }
+}
+Stack_cpp& Stack_cpp::operator=(const Stack_cpp& other) {
+    if (this != &other) {
+        size = other.size;
+        if (other.size > capacity){
+            capacity = other.size;
+            free(data);
+            data = (int*)malloc(sizeof(int)* capacity);
+            if (data == nullptr) {
+                std::cout << "Ups";
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            data[i] = other.data[i];
+        }
+    }
+    return *this;
 }
 
 Stack_cpp::~Stack_cpp() {
@@ -19,7 +51,10 @@ Stack_cpp::~Stack_cpp() {
 
 void Stack_cpp::push(int element) {
     if (size == capacity) {
-        size_t new_capacity = capacity * 2;
+        size_t new_capacity = 1;
+        if (capacity > 0) {
+            new_capacity = capacity * 2;
+        }
         int* new_data = (int*)realloc(data,sizeof(int) * new_capacity);
         if (new_data == nullptr) {
             std::cout << "Ups";
@@ -45,6 +80,3 @@ int Stack_cpp::pop() {
 bool Stack_cpp::is_empty() {
     return size == 0;
 }
-/* copy constructor
- * assigment constructor
-*/
