@@ -109,7 +109,32 @@ static void test_assign_copy() {
 
     printf("test_assign_copy: OK\n");
 }
-//testy przy braniu stosu do funkcji po adresie i po wskazniku
+static void test_take_address(Stack_cpp& s) {
+    s.pop();
+    s.push(9);
+}
+static void test_take_value(Stack_cpp s) {
+    s.pop();
+    s.push(9);
+}
+static void test_pointer_vs_value () {
+    Stack_cpp s1;
+    s1.push(1);
+    s1.push(2);
+    s1.push(3);
+    test_take_address(s1);
+    assert(s1.pop() == 9);
+
+    Stack_cpp s2;
+    s2.push(1);
+    s2.push(2);
+    s2.push(3);
+    test_take_value(s1);
+    assert(s2.pop() == 3);
+
+    printf("test_passed_by_reference: OK\n");
+    printf("test_passed_by_value: OK\n");
+}
 
 int main() {
     test_empty();
@@ -117,6 +142,7 @@ int main() {
     test_growth();
     test_stress();
     test_assign_copy();
+    test_pointer_vs_value();
 
     printf("\nAll tests completed\n");
     return 0;
