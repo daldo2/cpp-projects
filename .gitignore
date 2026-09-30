@@ -17,3 +17,4 @@ stack/stack
 .idea/
 .vscode/
 *.swp
+/C++.pdf

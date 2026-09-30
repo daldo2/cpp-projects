@@ -10,4 +10,7 @@ add_executable(Stack_cpp
         Stack_cpp.cpp
         Stack_cpp.h
         TestStack_cpp.cpp
+        ../Complex_numbers/Complex.cpp
+        ../Complex_numbers/Complex.h
+        ../Complex_numbers/TestComplex.cpp
 )

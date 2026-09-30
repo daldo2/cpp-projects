@@ -129,7 +129,7 @@ static void test_pointer_vs_value () {
     s2.push(1);
     s2.push(2);
     s2.push(3);
-    test_take_value(s1);
+    test_take_value(s2);
     assert(s2.pop() == 3);
 
     printf("test_passed_by_reference: OK\n");
