@@ -4,6 +4,7 @@
 
 #ifndef STACK_CPP_COMPLEX_H
 #define STACK_CPP_COMPLEX_H
+#include <iosfwd>
 
 
 class Complex {
@@ -16,11 +17,14 @@ class Complex {
         Complex& operator-=(const Complex& other);
         Complex& operator*=(const Complex& other);
         Complex& operator/=(const Complex& other);
+        bool operator==(const Complex& other) const;
+        bool operator!=(const Complex& other) const;
 };
 Complex operator+(Complex left, const Complex& right);
 Complex operator-(Complex left, const Complex& right);
 Complex operator*(Complex left, const Complex& right);
 Complex operator/(Complex left, const Complex& right);
+std::ostream& operator<<(std::ostream& output, const Complex& value);
 
 
 #endif
