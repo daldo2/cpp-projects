@@ -13,6 +13,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_subdirectory(stack)
 add_subdirectory(Stack_cpp)
 add_subdirectory(Complex_numbers)
+add_subdirectory(lecture_examples)
 
 find_program(VALGRIND_EXECUTABLE valgrind)
 
