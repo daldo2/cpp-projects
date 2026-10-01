@@ -1,9 +1,5 @@
-cmake_minimum_required(VERSION 4.2)
-project(stack C)
-
-set(CMAKE_C_STANDARD 11)
-
-add_executable(stack
-        TestStack.c
-        Stack.h
-        Stack.c)
+add_executable(stack_c
+    Stack.c
+    Stack.h
+    TestStack.c
+)
