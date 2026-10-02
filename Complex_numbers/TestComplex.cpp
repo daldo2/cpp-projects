@@ -88,7 +88,6 @@ static void test_division_by_zero() {
 
     cout << "test_division_by_zero: OK\n";
 }
-
 static void test_output() {
     ostringstream positive;
     positive << Complex(5, 8);
@@ -108,6 +107,30 @@ static void test_output() {
 
     cout << "test_output: OK\n";
     //I used ai here to test it right
+}
+static void test_equal_unequal() {
+    Complex a(1,0);
+    Complex b(1,-1);
+    Complex c(0,0);
+    Complex d(1.5,0.01);
+    Complex e(1,0);
+    //unequal
+    assert(!(a==b));
+    assert((a!=b));
+    //unequal
+    assert(!(a==c));
+    assert((a!=c));
+    //unequal
+    assert(!(a==d));
+    assert((a!=d));
+    //unequal
+    assert(!(b==c));
+    assert((b!=c));
+    //equal
+    assert((a==e));
+    assert(!(a!=e));
+
+    cout << "test_equal_unequal: OK\n";
 }
 static void test_special_cases() {
     {
@@ -189,6 +212,7 @@ int main() {
     test_division();
     test_division_by_zero();
     test_output();
+    test_equal_unequal();
     test_special_cases();
 }
 //Almost equal might be necessary, professor need to be asked
