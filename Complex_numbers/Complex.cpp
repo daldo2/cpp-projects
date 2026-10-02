@@ -34,22 +34,6 @@ Complex& Complex::operator/=(const Complex& other) {
     imaginary = newImaginary;
     return *this;
 }
-bool Complex::operator==(const Complex& other) const {
-    if (imaginary == other.imaginary){
-        if (real== other.real) {
-            return true;
-        }
-    }
-    return false;
-}
-bool Complex::operator!=(const Complex& other) const{
-    if (imaginary == other.imaginary){
-        if (real== other.real) {
-            return false;
-        }
-    }
-    return true;
-}
 
 Complex operator+(Complex left, const Complex& right) {
     left += right;
@@ -66,6 +50,22 @@ Complex operator*(Complex left, const Complex& right) {
 Complex operator/(Complex left, const Complex& right) {
     left /= right;
     return left;
+}
+bool operator==(Complex left, const Complex& right) {
+    if (left.imaginary == right.imaginary){
+        if (left.real== right.real) {
+            return true;
+        }
+    }
+    return false;
+}
+bool operator!=(Complex left, const Complex& right){
+    if (left.imaginary == right.imaginary){
+        if (left.real== right.real) {
+            return false;
+        }
+    }
+    return true;
 }
 std::ostream& operator<<(std::ostream& output, const Complex& value) {
     if (value.imaginary >= 0) {

@@ -109,6 +109,79 @@ static void test_output() {
     cout << "test_output: OK\n";
     //I used ai here to test it right
 }
+static void test_special_cases() {
+    {
+        Complex a(1, 1);
+        Complex b(2, -1);
+        Complex c(3.5);
+        a += b += c;
+        assert(a == Complex(6.5, 0));
+        assert(b == Complex(5.5, -1));
+        assert(c == Complex(3.5, 0));
+    }
+    {
+        Complex a(1, 1);
+        Complex b(2, -1);
+        Complex c(3.5);
+        (a += b) += c;
+        assert(a == Complex(6.5, 0));
+        assert(b == Complex(2, -1));
+        assert(c == Complex(3.5, 0));
+    }
+
+    {
+        Complex a(1, 1);
+        Complex b(2, -1);
+        Complex c(3.5);
+        a *= b *= c;
+        assert(a == Complex(10.5, 3.5));
+        assert(b == Complex(7, -3.5));
+        assert(c == Complex(3.5, 0));
+    }
+    {
+        Complex a(1, 1);
+        Complex b(2, -1);
+        Complex c(3.5);
+        (a *= b) *= c;
+        assert(a == Complex(10.5, 3.5));
+        assert(b == Complex(2, -1));
+        assert(c == Complex(3.5, 0));
+    }
+    {
+        Complex a(1, 1);
+        Complex result = a + 7;
+        assert(result == Complex(8, 1));
+        assert(a == Complex(1, 1));
+    }
+    {
+        Complex a(1, 1);
+        Complex result = 7 + a;
+        assert(result == Complex(8, 1));
+        assert(a == Complex(1, 1));
+    }
+    {
+        Complex b(2, -1);
+        Complex result = b * 5;
+        assert(result == Complex(10, -5));
+        assert(b == Complex(2, -1));
+    }
+    {
+        Complex b(2, -1);
+        Complex result = 5 * b;
+        assert(result == Complex(10, -5));
+        assert(b == Complex(2, -1));
+    }
+    {
+        Complex c(3.5);
+        assert(c == 3.5);
+    }
+    {
+        Complex c(3.5);
+        assert(3.5 == c);
+    }
+    cout << "test_special_cases: OK\n";
+}
+
 int main() {
     test_addition();
     test_substraction();
@@ -116,6 +189,8 @@ int main() {
     test_division();
     test_division_by_zero();
     test_output();
+    test_special_cases();
 }
 //Almost equal might be necessary, professor need to be asked
 //Tests for == and != needed
+//Maybe separate functions for special cases are needed
