@@ -1,6 +1,7 @@
 #include "Complex.h"
 #include <iostream>
 #include <stdexcept>
+#include <cmath>
 
 Complex::Complex(double r, double i) {
     imaginary = i;
@@ -33,6 +34,12 @@ Complex& Complex::operator/=(const Complex& other) {
     real = newReal;
     imaginary = newImaginary;
     return *this;
+}
+double Complex::phase() const {
+    return atan2(imaginary, real);
+}
+double Complex::amplitude() const {
+    return hypot(real, imaginary);
 }
 
 Complex operator+(Complex left, const Complex& right) {

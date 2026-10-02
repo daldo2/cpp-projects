@@ -204,6 +204,9 @@ static void test_special_cases() {
     }
     cout << "test_special_cases: OK\n";
 }
+static void test_phase_amplitude() {
+    
+}
 
 int main() {
     test_addition();

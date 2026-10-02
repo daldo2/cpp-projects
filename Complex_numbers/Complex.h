@@ -17,6 +17,8 @@ class Complex {
         Complex& operator-=(const Complex& other);
         Complex& operator*=(const Complex& other);
         Complex& operator/=(const Complex& other);
+        double phase() const;
+        double amplitude() const;
 };
 Complex operator+(Complex left, const Complex& right);
 Complex operator-(Complex left, const Complex& right);
