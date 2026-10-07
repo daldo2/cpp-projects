@@ -219,5 +219,4 @@ int main() {
     test_special_cases();
 }
 //Almost equal might be necessary, professor need to be asked
-//Tests for == and != needed
 //Maybe separate functions for special cases are needed

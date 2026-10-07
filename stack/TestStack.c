@@ -70,11 +70,40 @@ static void test_stress(void) {
     printf("test_stress: OK\n");
 }
 
+static void test_multiple_stacks(void) {
+    Stack s1;
+    Stack s2;
+    Stack s3;
+
+    init(&s1);
+    init(&s2);
+    push(&s1, 1);
+    push(&s1, 2);
+    push(&s1, 3);
+    push(&s2, 3);
+    push(&s2, 2);
+    push(&s2, 1);
+    assert(pop(&s1) == 3);
+    assert(pop(&s1) == 2);
+    assert(pop(&s1) == 1);
+    assert(isEmpty(&s1));
+    assert(pop(&s2) == 1);
+    assert(pop(&s2) == 2);
+    assert(pop(&s2) == 3);
+    assert(isEmpty(&s2));
+
+    destroy(&s1);
+    destroy(&s2);
+
+    printf("test_multiple_stacks: OK\n");
+}
+
 int main(void) {
     test_empty();
     test_lifo();
     test_growth();
     test_stress();
+    test_multiple_stacks();
 
     printf("\nAll tests completed\n");
     return 0;
