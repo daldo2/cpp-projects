@@ -2,7 +2,6 @@
 #include "Stack_cpp.h"
 #include <cassert>
 
-#include "../stack/Stack.h"
 
 static void test_empty() {
     Stack_cpp s;
@@ -47,7 +46,6 @@ static void test_growth() {
 
     printf("test_growth: OK\n");
 }
-
 static void test_stress() {
     Stack_cpp s;
 
@@ -62,14 +60,7 @@ static void test_stress() {
 
     printf("test_stress: OK\n");
 }
-
-static void test_assign_copy() {
-    Stack_cpp s1;
-    s1.push(1);
-    s1.push(2);
-    s1.push(3);
-
-    Stack_cpp s2(s1);
+static void test_assign_copy_s2(Stack_cpp &s2,Stack_cpp &s1) {
     assert(s2.size == 3);
     assert(s2.capacity == 3);
     assert(s2.data != s1.data);
@@ -81,8 +72,8 @@ static void test_assign_copy() {
 
     assert(s1.size == 3);
     assert(!s1.is_empty());
-
-    Stack_cpp s3 = s1;
+}
+static void test_assign_copy_s3(Stack_cpp &s3,Stack_cpp &s1) {
     assert(s3.size == 3);
     assert(s3.capacity == 3);
     assert(s3.data != s1.data);
@@ -94,9 +85,8 @@ static void test_assign_copy() {
 
     assert(s1.size == 3);
     assert(!s1.is_empty());
-
-    Stack_cpp s4;
-
+}
+static void test_assign_copy_s4(Stack_cpp &s4,Stack_cpp &s1) {
     s4.push(10);
     int* previous_data = s4.data;
     s4 = s1;
@@ -106,6 +96,21 @@ static void test_assign_copy() {
     assert(s4.pop() == 2);
     assert(s4.pop() == 1);
     assert(s1.size == 3);
+}
+static void test_assign_copy() {
+    Stack_cpp s1;
+    s1.push(1);
+    s1.push(2);
+    s1.push(3);
+
+    Stack_cpp s2(s1);
+    test_assign_copy_s2(s2,s1);
+
+    Stack_cpp s3 = s1;
+    test_assign_copy_s3(s3,s1);
+
+    Stack_cpp s4;
+    test_assign_copy_s4(s4,s1);
 
     printf("test_assign_copy: OK\n");
 }
@@ -135,7 +140,107 @@ static void test_pointer_vs_value () {
     printf("test_passed_by_reference: OK\n");
     printf("test_passed_by_value: OK\n");
 }
+static void test_assign_larger_to_smaller() {
+    Stack_cpp s1;
+    for (int i = 1; i <= 6; i++) {
+        s1.push(i);
+    }
 
+    Stack_cpp s2;
+    s2.push(10);
+
+    s2 = s1;
+
+    assert(s2.capacity == 6);
+    assert(s2.size == 6);
+    assert(s2.data != s1.data);
+    for (int i = 6; i >= 1; i--) {
+        assert(s2.pop() == i);
+    }
+
+    assert(s1.size == 6);
+
+    printf("test_assign_larger_to_smaller: OK\n");
+}
+static void test_assign_smaller_to_larger() {
+    Stack_cpp s1;
+    s1.push(1);
+    s1.push(2);
+
+    Stack_cpp s2;
+    for (int i = 0; i < 6; i++) {
+        s2.push(100 + i);
+    }
+    int* previous_data = s2.data;
+
+    s2 = s1;
+
+    assert(s2.data == previous_data);
+    assert(s2.capacity == 8);
+    assert(s2.size == 2);
+    assert(s2.pop() == 2);
+    assert(s2.pop() == 1);
+    assert(s2.is_empty());
+
+    printf("test_assign_smaller_to_larger: OK\n");
+}
+static void test_assign_equal_size() {
+    Stack_cpp s1;
+    s1.push(1);
+    s1.push(2);
+    s1.push(3);
+
+    Stack_cpp s2;
+    s2.push(7);
+    s2.push(8);
+    s2.push(9);
+    int* previous_data = s2.data;
+
+    s2 = s1;
+
+    assert(s2.data == previous_data);
+    assert(s2.size == 3);
+    assert(s2.pop() == 3);
+    assert(s2.pop() == 2);
+    assert(s2.pop() == 1);
+
+    printf("test_assign_equal_size: OK\n");
+}
+static void test_assign_empty() {
+    Stack_cpp s1;
+
+    Stack_cpp s2;
+    s2.push(1);
+    s2.push(2);
+    s2.push(3);
+    int* previous_data = s2.data;
+
+    s2 = s1;
+
+    assert(s2.is_empty());
+    assert(s2.data == previous_data);
+    s2.push(5);
+    assert(s2.pop() == 5);
+
+    printf("test_assign_empty_to_nonempty: OK\n");
+}
+static void test_self_assignment() {
+    Stack_cpp s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    int* previous_data = s.data;
+
+    s = s;
+
+    assert(s.data == previous_data);
+    assert(s.size == 3);
+    assert(s.pop() == 3);
+    assert(s.pop() == 2);
+    assert(s.pop() == 1);
+
+    printf("test_self_assignment: OK\n");
+}
 int main() {
     test_empty();
     test_lifo();
@@ -143,6 +248,11 @@ int main() {
     test_stress();
     test_assign_copy();
     test_pointer_vs_value();
+    test_assign_larger_to_smaller();
+    test_assign_smaller_to_larger();
+    test_assign_equal_size();
+    test_assign_empty();
+    test_self_assignment();
 
     printf("\nAll tests completed\n");
     return 0;

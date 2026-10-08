@@ -7,7 +7,7 @@ Stack_cpp::Stack_cpp() {
     size = 0;
     data = (int*)malloc(sizeof(int)* capacity);
     if (data == nullptr) {
-        std::cout << "Ups";
+        std::cout << "Failure";
         exit(EXIT_FAILURE);
     }
 }
@@ -17,7 +17,7 @@ Stack_cpp::Stack_cpp(const Stack_cpp& other) {
     data = (int*)malloc(sizeof(int)* capacity);
     if (size != 0) {
         if (data == nullptr) {
-            std::cout << "Ups";
+            std::cout << "Failure";
             exit(EXIT_FAILURE);
         }
         for (int i = 0; i < size; i++) {
@@ -33,7 +33,7 @@ Stack_cpp& Stack_cpp::operator=(const Stack_cpp& other) {
             free(data);
             data = (int*)malloc(sizeof(int)* capacity);
             if (data == nullptr) {
-                std::cout << "Ups";
+                std::cout << "Failure";
                 exit(EXIT_FAILURE);
             }
         }
@@ -51,13 +51,13 @@ Stack_cpp::~Stack_cpp() {
 
 void Stack_cpp::push(int element) {
     if (size == capacity) {
-        size_t new_capacity = 1;
+        int new_capacity = 1;
         if (capacity > 0) {
             new_capacity = capacity * 2;
         }
         int* new_data = (int*)realloc(data,sizeof(int) * new_capacity);
         if (new_data == nullptr) {
-            std::cout << "Ups";
+            std::cout << "Failure";
             exit(EXIT_FAILURE);
         }
         capacity = new_capacity;
@@ -77,6 +77,6 @@ int Stack_cpp::pop() {
     return element;
 }
 
-bool Stack_cpp::is_empty() {
+bool Stack_cpp::is_empty(){
     return size == 0;
 }
