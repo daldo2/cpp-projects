@@ -77,6 +77,7 @@ static void test_multiple_stacks(void) {
 
     init(&s1);
     init(&s2);
+    init(&s3);
     push(&s1, 1);
     push(&s1, 2);
     push(&s1, 3);
@@ -94,6 +95,7 @@ static void test_multiple_stacks(void) {
 
     destroy(&s1);
     destroy(&s2);
+    destroy(&s3);
 
     printf("test_multiple_stacks: OK\n");
 }

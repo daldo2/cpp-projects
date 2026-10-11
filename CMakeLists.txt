@@ -13,12 +13,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_subdirectory(stack)
 add_subdirectory(Stack_cpp)
 add_subdirectory(Complex_numbers)
+add_subdirectory(Polynomial)
 add_subdirectory(lecture_examples)
 
 find_program(VALGRIND_EXECUTABLE valgrind)
 
 if(VALGRIND_EXECUTABLE)
-    foreach(program_target IN ITEMS stack_c stack_cpp complex_numbers)
+    foreach(program_target IN ITEMS stack_c stack_cpp complex_numbers poly)
         add_custom_target(valgrind_${program_target}
             COMMAND ${VALGRIND_EXECUTABLE}
                 --leak-check=full
