@@ -140,6 +140,67 @@ static void test_pointer_vs_value () {
     printf("test_passed_by_reference: OK\n");
     printf("test_passed_by_value: OK\n");
 }
+static void test_copy_empty() {
+    Stack_cpp s1;
+
+    Stack_cpp s2(s1);
+
+    assert(s2.is_empty());
+    assert(s2.capacity == 0);
+
+    s2.push(5);
+    s2.push(6);
+    assert(s2.pop() == 6);
+    assert(s2.pop() == 5);
+    assert(s2.is_empty());
+    assert(s1.is_empty());
+
+    printf("test_copy_empty: OK\n");
+}
+static void test_copy_then_push() {
+    Stack_cpp s1;
+    s1.push(1);
+    s1.push(2);
+    s1.push(3);
+
+    Stack_cpp s2(s1);
+    assert(s2.capacity == 3);
+
+    s2.push(4);
+    s2.push(5);
+    assert(s2.capacity > 3);
+    assert(s2.size == 5);
+    assert(s2.pop() == 5);
+    assert(s2.pop() == 4);
+    assert(s2.pop() == 3);
+
+    assert(s1.size == 3);
+    assert(s1.pop() == 3);
+
+    printf("test_copy_then_push: OK\n");
+}
+static void test_copy_independent() {
+    Stack_cpp s1;
+    s1.push(1);
+    s1.push(2);
+    s1.push(3);
+
+    Stack_cpp s2(s1);
+
+    s1.pop();
+    s1.pop();
+    s1.push(99);
+
+    assert(s2.size == 3);
+    assert(s2.pop() == 3);
+    assert(s2.pop() == 2);
+    assert(s2.pop() == 1);
+
+    assert(s1.pop() == 99);
+    assert(s1.pop() == 1);
+
+    printf("test_copy_independent: OK\n");
+}
 static void test_assign_larger_to_smaller() {
     Stack_cpp s1;
     for (int i = 1; i <= 6; i++) {
@@ -248,6 +309,9 @@ int main() {
     test_stress();
     test_assign_copy();
     test_pointer_vs_value();
+    test_copy_empty();
+    test_copy_then_push();
+    test_copy_independent();
     test_assign_larger_to_smaller();
     test_assign_smaller_to_larger();
     test_assign_equal_size();

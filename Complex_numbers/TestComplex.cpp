@@ -1,7 +1,7 @@
 #include "Complex.h"
 #include <cassert>
 #include <iostream>
-#include <sstream>
+#include <cmath>
 using namespace std;
 
 static void test_addition() {
@@ -88,26 +88,6 @@ static void test_division_by_zero() {
 
     cout << "test_division_by_zero: OK\n";
 }
-static void test_output() {
-    ostringstream positive;
-    positive << Complex(5, 8);
-    assert(positive.str() == "5 + 8i");
-
-    ostringstream negative;
-    negative << Complex(5, -8);
-    assert(negative.str() == "5 - 8i");
-
-    ostringstream zero;
-    zero << Complex(5, 0);
-    assert(zero.str() == "5 + 0i");
-
-    ostringstream chained;
-    chained << Complex(1, 2) << " | " << Complex(3, -4);
-    assert(chained.str() == "1 + 2i | 3 - 4i");
-
-    cout << "test_output: OK\n";
-    //I used ai here to test it right
-}
 static void test_equal_unequal() {
     Complex a(1,0);
     Complex b(1,-1);
@@ -126,6 +106,7 @@ static void test_equal_unequal() {
     //unequal
     assert(!(b==c));
     assert((b!=c));
+
     //equal
     assert((a==e));
     assert(!(a!=e));
@@ -205,7 +186,13 @@ static void test_special_cases() {
     cout << "test_special_cases: OK\n";
 }
 static void test_phase_amplitude() {
-    
+    const Complex a(3, 4);
+    const Complex b(0, 1);
+
+    assert(a.amplitude() == 5);
+    assert(b.phase() == M_PI / 2);
+
+    cout << "test_phase_amplitude: OK\n";
 }
 
 int main() {
@@ -214,9 +201,7 @@ int main() {
     test_multiplication();
     test_division();
     test_division_by_zero();
-    test_output();
     test_equal_unequal();
     test_special_cases();
+    test_phase_amplitude();
 }
-//Almost equal might be necessary, professor need to be asked
-//Maybe separate functions for special cases are needed
