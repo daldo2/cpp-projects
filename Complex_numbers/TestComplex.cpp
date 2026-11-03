@@ -178,6 +178,7 @@ static void test_special_cases() {
 
     cout << "test_special_cases: OK\n";
 }
+
 static void test_output() {
     ostringstream stream;
     stream << Complex(1, 2) << " | " << Complex(3, -4);
