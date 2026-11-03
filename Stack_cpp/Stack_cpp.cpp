@@ -1,5 +1,4 @@
 #include "Stack_cpp.h"
-#include <cstdlib>
 #include <iostream>
 
 Stack_cpp::Stack_cpp() {
