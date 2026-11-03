@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <cmath>
+#include <sstream>
 using namespace std;
 
 static void test_addition() {
@@ -113,77 +114,76 @@ static void test_equal_unequal() {
 
     cout << "test_equal_unequal: OK\n";
 }
+static void test_special_cases_chained_plus() {
+    Complex a(1, 1);
+    Complex b(2, -1);
+    Complex c(3.5);
+    a += b += c;
+    assert(a == Complex(6.5, 0));
+    assert(b == Complex(5.5, -1));
+    assert(c == Complex(3.5, 0));
+}
+static void test_special_cases_parenthesized_plus() {
+    Complex a(1, 1);
+    Complex b(2, -1);
+    Complex c(3.5);
+    (a += b) += c;
+    assert(a == Complex(6.5, 0));
+    assert(b == Complex(2, -1));
+    assert(c == Complex(3.5, 0));
+}
+static void test_special_cases_chained_multiply() {
+    Complex a(1, 1);
+    Complex b(2, -1);
+    Complex c(3.5);
+    a *= b *= c;
+    assert(a == Complex(10.5, 3.5));
+    assert(b == Complex(7, -3.5));
+    assert(c == Complex(3.5, 0));
+}
+static void test_special_cases_parenthesized_multiply() {
+    Complex a(1, 1);
+    Complex b(2, -1);
+    Complex c(3.5);
+    (a *= b) *= c;
+    assert(a == Complex(10.5, 3.5));
+    assert(b == Complex(2, -1));
+    assert(c == Complex(3.5, 0));
+}
+static void test_special_cases_add_number() {
+    Complex a(1, 1);
+    assert(a + 7 == Complex(8, 1));
+    assert(7 + a == Complex(8, 1));
+    assert(a == Complex(1, 1));
+}
+static void test_special_cases_multiply_number() {
+    Complex b(2, -1);
+    assert(b * 5 == Complex(10, -5));
+    assert(5 * b == Complex(10, -5));
+    assert(b == Complex(2, -1));
+}
+static void test_special_cases_equal_number() {
+    Complex c(3.5);
+    assert(c == 3.5);
+    assert(3.5 == c);
+}
 static void test_special_cases() {
-    {
-        Complex a(1, 1);
-        Complex b(2, -1);
-        Complex c(3.5);
-        a += b += c;
-        assert(a == Complex(6.5, 0));
-        assert(b == Complex(5.5, -1));
-        assert(c == Complex(3.5, 0));
-    }
-    {
-        Complex a(1, 1);
-        Complex b(2, -1);
-        Complex c(3.5);
-        (a += b) += c;
-        assert(a == Complex(6.5, 0));
-        assert(b == Complex(2, -1));
-        assert(c == Complex(3.5, 0));
-    }
+    test_special_cases_chained_plus();
+    test_special_cases_parenthesized_plus();
+    test_special_cases_chained_multiply();
+    test_special_cases_parenthesized_multiply();
+    test_special_cases_add_number();
+    test_special_cases_multiply_number();
+    test_special_cases_equal_number();
 
-    {
-        Complex a(1, 1);
-        Complex b(2, -1);
-        Complex c(3.5);
-        a *= b *= c;
-        assert(a == Complex(10.5, 3.5));
-        assert(b == Complex(7, -3.5));
-        assert(c == Complex(3.5, 0));
-    }
-    {
-        Complex a(1, 1);
-        Complex b(2, -1);
-        Complex c(3.5);
-        (a *= b) *= c;
-        assert(a == Complex(10.5, 3.5));
-        assert(b == Complex(2, -1));
-        assert(c == Complex(3.5, 0));
-    }
-    {
-        Complex a(1, 1);
-        Complex result = a + 7;
-        assert(result == Complex(8, 1));
-        assert(a == Complex(1, 1));
-    }
-    {
-        Complex a(1, 1);
-        Complex result = 7 + a;
-        assert(result == Complex(8, 1));
-        assert(a == Complex(1, 1));
-    }
-    {
-        Complex b(2, -1);
-        Complex result = b * 5;
-        assert(result == Complex(10, -5));
-        assert(b == Complex(2, -1));
-    }
-    {
-        Complex b(2, -1);
-        Complex result = 5 * b;
-        assert(result == Complex(10, -5));
-        assert(b == Complex(2, -1));
-    }
-    {
-        Complex c(3.5);
-        assert(c == 3.5);
-    }
-    {
-        Complex c(3.5);
-        assert(3.5 == c);
-    }
     cout << "test_special_cases: OK\n";
+}
+static void test_output() {
+    ostringstream stream;
+    stream << Complex(1, 2) << " | " << Complex(3, -4);
+    assert(stream.str() == "1 + 2i | 3 - 4i");
+
+    cout << "test_output: OK\n";
 }
 static void test_phase_amplitude() {
     const Complex a(3, 4);
@@ -203,5 +203,6 @@ int main() {
     test_division_by_zero();
     test_equal_unequal();
     test_special_cases();
+    test_output();
     test_phase_amplitude();
 }
