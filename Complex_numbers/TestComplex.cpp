@@ -89,26 +89,61 @@ static void test_division_by_zero() {
 
     cout << "test_division_by_zero: OK\n";
 }
+static void test_subtract_assignment() {
+    Complex a(4, 6);
+    a -= Complex(1, 1);
+    assert(a == Complex(3, 5));
+
+    cout << "test_subtract_assignment: OK\n";
+}
+static void test_multiply_assignment() {
+    Complex a(1, 2);
+    a *= Complex(3, 4);
+    assert(a == Complex(-5, 10));
+
+    Complex b(1, 2);
+    b *= 2;
+    assert(b == Complex(2, 4));
+
+    Complex c(1, 2);
+    assert(&(c *= Complex(3, 4)) == &c);
+
+    cout << "test_multiply_assignment: OK\n";
+}
+static void test_divide_assignment() {
+    Complex a(4, 2);
+    a /= Complex(1, 1);
+    assert(a == Complex(3, -1));
+
+    Complex b(2, 4);
+    b /= 2;
+    assert(b == Complex(1, 2));
+
+    Complex c(4, 2);
+    assert(&(c /= Complex(1, 1)) == &c);
+
+    cout << "test_divide_assignment: OK\n";
+}
 static void test_equal_unequal() {
     Complex a(1,0);
     Complex b(1,-1);
     Complex c(0,0);
     Complex d(1.5,0.01);
     Complex e(1,0);
-    //unequal
+
     assert(!(a==b));
     assert((a!=b));
-    //unequal
+
     assert(!(a==c));
     assert((a!=c));
-    //unequal
+
     assert(!(a==d));
     assert((a!=d));
-    //unequal
+
     assert(!(b==c));
     assert((b!=c));
 
-    //equal
+
     assert((a==e));
     assert(!(a!=e));
 
@@ -202,6 +237,9 @@ int main() {
     test_multiplication();
     test_division();
     test_division_by_zero();
+    test_subtract_assignment();
+    test_multiply_assignment();
+    test_divide_assignment();
     test_equal_unequal();
     test_special_cases();
     test_output();
