@@ -4,6 +4,7 @@
 
 class IndexOutOfRange {};
 class IncorrectDimensions{};
+class FileError{};
 
 class CommonMatrix {
 private:
@@ -52,7 +53,7 @@ public:
     Matrix& operator*=(const Matrix& other);
     bool operator==(const Matrix& other) const;
     bool operator!=(const Matrix& other) const;
-    Matrix& readFromFile();
+    Matrix& readFromFile(std::istream& in);
 };
 
 std::ostream& operator<<(std::ostream& out,const Matrix& matrix);

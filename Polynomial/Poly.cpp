@@ -42,7 +42,12 @@ std::ostream& operator<<(std::ostream& out, const Poly& poly) {
             }
         }
         else {
-            out << (coef < 0 ? " - " : " + ");
+            if (coef < 0) {
+                out << " - ";
+            }
+            else {
+                out <<" + ";
+            }
         }
 
         double absCoef = std::abs(coef);

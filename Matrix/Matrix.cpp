@@ -42,6 +42,9 @@ bool CommonMatrix::rowExists(int a, int b)const{
 }
 
 Matrix::Matrix(int a, int b) {
+    if (a<=0 || b<=0) {
+        throw IncorrectDimensions();
+    }
     block = new CommonMatrix(a,b);
 }
 Matrix::Matrix(const Matrix& other) {
@@ -136,6 +139,7 @@ Matrix Matrix::operator*(const Matrix& other)const{
     }
     return result;
 }
+
 Matrix& Matrix::operator+=(const Matrix& other){
     Matrix result = *this + other;
     *this = result;
@@ -146,12 +150,12 @@ Matrix& Matrix::operator-=(const Matrix& other){
     *this = result;
     return *this;
 }
-
 Matrix& Matrix::operator*=(const Matrix& other){
     Matrix result = *this * other;
     *this = result;
     return *this;
 }
+
 bool Matrix::operator==(const Matrix& other) const{
     int rows = getRows();
     int cols = getCols();
@@ -161,8 +165,17 @@ bool Matrix::operator==(const Matrix& other) const{
     if (this == &other) {
         return true;
     }
-    if (block != other.block) {
-        return false;
+    if (block == other.block) {
+        return true;
+    }
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j<cols; j++) {
+            if (read(i,j) != other.read(i,j))
+            {
+                return false;
+            }
+
+        }
     }
     return true;
 }
@@ -185,21 +198,34 @@ double Matrix::operator()(int a, int b)const{
     }
     return block->data[a][b];
 }
-Matrix& Matrix::readFromFile() {
-    int rows = 4;
-    int cols = 5;
-    std::string myText;
 
-    // Read from the text file
-    std::ifstream MyReadFile("read.csv");
-    
-    while (getline (MyReadFile, myText)) {
-        // Output the text from the file
-        cout << myText;
+Matrix& Matrix::readFromFile(std::istream& in) {
+    if (!in) {
+        throw FileError();
+    }
+    int file_rows;
+    int file_cols;
+
+    if (!(in >> file_rows >> file_cols)) {
+        throw FileError();
+    }
+    if (file_rows <= 0 || file_cols <= 0) {
+        throw IncorrectDimensions();
+    }
+    Matrix result(file_rows,file_cols);
+
+    double num;
+    for (int i = 0; i < file_rows; i++) {
+        for (int j = 0; j< file_cols; j++) {
+            if (!(in >> num)) {
+                throw FileError();
+            }
+            result(i,j) = num;
+        }
     }
 
-    // Close the file
-    MyReadFile.close();
+    *this = result;
+    return *this;
 }
 Matrix::Cell Matrix::operator()(int a, int b) {
     if (!block->rowExists(a, b)) {
