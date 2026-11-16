@@ -1,19 +1,24 @@
 #include "Poly.h"
 #include <cmath>
 
-Poly::Poly() {}
 Poly::Poly(double value) {
     if (value != 0 ) {
-        dir[0] = value;
+        coeffs[0] = value;
     }
 }
 
 double &Poly::operator[](int index) {
-    return dir[index];
+    if (index < 0) {
+        throw std::out_of_range("Negative index value");
+    }
+    return coeffs[index];
 }
 double Poly::operator[](int index) const {
-    auto it = dir.find(index);
-    if (it != dir.end()) {
+    if (index < 0) {
+        throw std::out_of_range("Negative index value");
+    }
+    auto it = coeffs.find(index);
+    if (it != coeffs.end()) {
         return it->second;
     }
     return 0;
@@ -21,47 +26,52 @@ double Poly::operator[](int index) const {
 
 double Poly::operator()(double x) const {
     double result = 0;
-    for (const auto [key,value]: dir) {
+    for (const auto [key,value]: coeffs) {
         result += std::pow(x, key) *value;
     }
     return result;
 }
 
+void outputNumber(double absCoef,int power,std::ostream& out) {
+    if (absCoef != 1 || power == 0) {
+        out << absCoef;
+    }
+
+    if (power == 1) {
+        out << "x";
+    }
+    else if (power > 1) {
+        out << "x^" << power;
+    }
+}
+
+void outputSign(double coef,bool flag, std::ostream& out){
+    if (flag == false) {
+        if (coef < 0) {
+            out << "-";
+        }
+    }
+    else {
+        if (coef < 0) {
+            out << " - ";
+        }
+        else {
+            out <<" + ";
+        }
+    }
+}
+
 std::ostream& operator<<(std::ostream& out, const Poly& poly) {
     bool flag = false;
-    for (auto it = poly.dir.rbegin();it != poly.dir.rend(); ++it) {
+    for (auto it = poly.coeffs.rbegin();it != poly.coeffs.rend(); ++it) {
         int power = it->first;
         double coef = it->second;
         if (coef == 0) {
             continue;
         }
-
-        if (flag == false) {
-            if (coef < 0) {
-                out << "-";
-            }
-        }
-        else {
-            if (coef < 0) {
-                out << " - ";
-            }
-            else {
-                out <<" + ";
-            }
-        }
-
+        outputSign(coef,flag,out);
         double absCoef = std::abs(coef);
-        if (absCoef != 1 || power == 0) {
-            out << absCoef;
-        }
-
-        if (power == 1) {
-            out << "x";
-        }
-        else if (power > 1) {
-            out << "x^" << power;
-        }
-
+        outputNumber(absCoef,power,out);
         flag = true;
     }
 
@@ -70,35 +80,36 @@ std::ostream& operator<<(std::ostream& out, const Poly& poly) {
     }
     return out;
 }
+
 Poly operator+(const Poly& left, const Poly& right) {
     Poly result = left;
-    for (const auto [key,value]: right.dir) {
-        result.dir[key] += value;
+    for (const auto [key,value]: right.coeffs) {
+        result.coeffs[key] += value;
 
-        if (result.dir[key] == 0) {
-            result.dir.erase(key);
+        if (result.coeffs[key] == 0) {
+            result.coeffs.erase(key);
         }
     }
     return result;
 }
 Poly operator-(const Poly& left, const Poly& right) {
     Poly result = left;
-    for (const auto [key,value]: right.dir) {
-        result.dir[key] -= value;
+    for (const auto [key,value]: right.coeffs) {
+        result.coeffs[key] -= value;
 
-        if (result.dir[key] == 0) {
-            result.dir.erase(key);
+        if (result.coeffs[key] == 0) {
+            result.coeffs.erase(key);
         }
     }
     return result;
 }
 Poly operator*(const Poly& left, const Poly& right) {
     Poly result;
-    for (const auto [key,value]: left.dir) {
-        for (const auto[key2,value2]:right.dir) {
-            result.dir[key+key2] += value * value2;
-            if (result.dir[key+key2] == 0) {
-                result.dir.erase(key+key2);
+    for (const auto [key,value]: left.coeffs) {
+        for (const auto[key2,value2]:right.coeffs) {
+            result.coeffs[key+key2] += value * value2;
+            if (result.coeffs[key+key2] == 0) {
+                result.coeffs.erase(key+key2);
             }
         }
     }

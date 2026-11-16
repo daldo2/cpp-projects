@@ -5,10 +5,9 @@
 
 class Poly {
 private:
-    std::map<int,double> dir;
+    std::map<int,double> coeffs;
 public:
-    Poly();
-    Poly(double value);
+    Poly(double value = 0);
     double& operator[](int index);
     double operator[](int index) const;
 
