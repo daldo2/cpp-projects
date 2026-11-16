@@ -69,8 +69,8 @@ std::ostream& operator<<(std::ostream& out, const Poly& poly) {
         if (coef == 0) {
             continue;
         }
-        outputSign(coef,isFirstTerm,out);
         double absCoef = std::abs(coef);
+        outputSign(coef,isFirstTerm,out);
         outputTerm(absCoef,power,out);
         isFirstTerm = false;
     }
