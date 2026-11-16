@@ -32,7 +32,7 @@ double Poly::operator()(double x) const {
     return result;
 }
 
-void outputNumber(double absCoef,int power,std::ostream& out) {
+void outputTerm(double absCoef,int power,std::ostream& out) {
     if (absCoef != 1 || power == 0) {
         out << absCoef;
     }
@@ -45,8 +45,8 @@ void outputNumber(double absCoef,int power,std::ostream& out) {
     }
 }
 
-void outputSign(double coef,bool flag, std::ostream& out){
-    if (flag == false) {
+void outputSign(double coef,bool isFirstTerm, std::ostream& out){
+    if (isFirstTerm) {
         if (coef < 0) {
             out << "-";
         }
@@ -62,20 +62,20 @@ void outputSign(double coef,bool flag, std::ostream& out){
 }
 
 std::ostream& operator<<(std::ostream& out, const Poly& poly) {
-    bool flag = false;
+    bool isFirstTerm = true;
     for (auto it = poly.coeffs.rbegin();it != poly.coeffs.rend(); ++it) {
         int power = it->first;
         double coef = it->second;
         if (coef == 0) {
             continue;
         }
-        outputSign(coef,flag,out);
+        outputSign(coef,isFirstTerm,out);
         double absCoef = std::abs(coef);
-        outputNumber(absCoef,power,out);
-        flag = true;
+        outputTerm(absCoef,power,out);
+        isFirstTerm = false;
     }
 
-    if (flag == false) {
+    if (isFirstTerm) {
         out << 0;
     }
     return out;
