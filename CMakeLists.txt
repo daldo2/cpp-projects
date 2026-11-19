@@ -15,7 +15,11 @@ add_subdirectory(Stack_cpp)
 add_subdirectory(Complex_numbers)
 add_subdirectory(Polynomial)
 add_subdirectory(Matrix)
-add_subdirectory(lecture_examples)
+# Map/ is work in progress (Employee.h is still empty), so it is not built yet.
+# lecture_examples/ is not in the repository; build it only when present locally.
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lecture_examples/CMakeLists.txt)
+    add_subdirectory(lecture_examples)
+endif()
 
 find_program(VALGRIND_EXECUTABLE valgrind)
 
@@ -30,6 +34,7 @@ if(VALGRIND_EXECUTABLE)
                 --error-exitcode=1
                 $<TARGET_FILE:${program_target}>
             DEPENDS ${program_target}
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${program_target}>
             USES_TERMINAL
             VERBATIM
         )
