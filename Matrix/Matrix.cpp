@@ -13,7 +13,7 @@ CommonMatrix::CommonMatrix(int a, int b) {
 CommonMatrix::CommonMatrix(const CommonMatrix &other) {
     rows = other.rows;
     cols = other.cols;
-    data = new double*[rows];
+    data = new double* [rows];
     for (int i = 0; i < rows; i++) {
         data[i] = new double[cols];
     }
@@ -223,7 +223,6 @@ Matrix& Matrix::readFromFile(std::istream& in) {
             result(i,j) = num;
         }
     }
-
     *this = result;
     return *this;
 }
