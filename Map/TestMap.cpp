@@ -62,6 +62,7 @@ void modifyBooks(Library& library) {
 
 	libraryPtr = library.find("Less than ever");								// Find employee using its ID
 	libraryPtr->pages = 290;
+	libraryPtr->status = borrowed;
 }
 void testBooks() {
 	Library library;
