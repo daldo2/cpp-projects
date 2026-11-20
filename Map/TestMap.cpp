@@ -15,6 +15,7 @@ void modifyEmployees(Database& database);
 void addBooks(Library& library);
 void modifyBooks(Library& library);
 void testBooks();
+void additionalTests(Database& database);
 
 int main() {
 	Database database;
@@ -23,7 +24,6 @@ int main() {
 	Database newDatabase = database;									// Make a copy of database
 	newDatabase.add(830505432, Employee("Ewa Nowak", "charwoman", 43));	// Add fourth employee
 	modifyEmployees(newDatabase);
-
 	cout << "Original database:" << endl << database << endl;
 	cout << "Modified database:" << endl << newDatabase << endl;
 
@@ -32,6 +32,8 @@ int main() {
 	cout << "Database after the assignment:" << endl << database << endl;
 
 	testBooks();
+	std::cout<<"\n";
+	additionalTests(database);
 };
 
 void addEmployees(Database& database) {
@@ -50,6 +52,19 @@ void modifyEmployees(Database& database) {
 	employeePtr->age = 29;												// Modify the age of employee
 }
 
+void additionalTests(Database& database) {
+	try {
+		database.add(730505129, Employee("Anna Zaradna", "secretary", 32));
+	}catch (DuplicateKey) {
+		std::cout<<"Duplicate key error: caught\n";
+	}
+	Employee* employeePtr;
+	employeePtr = database.find(10);
+	if (employeePtr == nullptr) {
+		std::cout<<"Nullptr for find (key that is not in database): caught";
+	}
+
+}
 void addBooks(Library& library) {
 	library.add("Fullfilled",Book("Brian Williams","Drama",500,borrowed));
 	library.add("Less than ever",Book("Brian Collins","Horror",68,bookshelf));
@@ -79,3 +94,4 @@ void testBooks() {
 
 	cout << "Library after the assignment:" << endl << library << endl;
 }
+
