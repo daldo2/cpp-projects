@@ -1,14 +1,20 @@
-#include "Employee.h"													// Defines class Employee
+#include "Employee.h"
+#include "Book.h"						// Defines class Employee
 #include "Map.h"														// Defines template Map<Key, Value>
 #include <iostream>
 
-typedef unsigned int ID; 												// Identification number of employee
+typedef unsigned int ID;
+typedef std::string Title;
 typedef Map<ID, Employee> Database; 									// Database of employees
-
+typedef Map<Title,Book> Library;
 using namespace std;
+
 
 void addEmployees(Database& database);
 void modifyEmployees(Database& database);
+void addBooks(Library& library);
+void modifyBooks(Library& library);
+void testBooks();
 
 int main() {
 	Database database;
@@ -24,6 +30,8 @@ int main() {
 	database = newDatabase;												// Update original database
 
 	cout << "Database after the assignment:" << endl << database << endl;
+
+	testBooks();
 };
 
 void addEmployees(Database& database) {
@@ -40,4 +48,33 @@ void modifyEmployees(Database& database) {
 	
 	employeePtr = database.find(761028073);								// Find employee using its ID
 	employeePtr->age = 29;												// Modify the age of employee
+}
+
+void addBooks(Library& library) {
+	library.add("Fullfilled",Book("Brian Williams","Drama",500,borrowed));
+	library.add("Less than ever",Book("Brian Collins","Horror",68,bookshelf));
+	library.add("Brothers karazmkow",Book("Elie James","Historic",20,borrowed));
+}
+void modifyBooks(Library& library) {
+	Book* libraryPtr;
+	libraryPtr = library.find("Fullfilled");								// Find employee using its ID
+	libraryPtr->category = "Banger";									// Modify the position of employee
+
+	libraryPtr = library.find("Less than ever");								// Find employee using its ID
+	libraryPtr->pages = 290;
+}
+void testBooks() {
+	Library library;
+	addBooks(library);
+
+	Library newLibrary = library;									// Make a copy of database
+	newLibrary.add("Horizon", Book("Ewa Polanska", "Epic", 430, bookshelf));	// Add fourth employee
+	modifyBooks(newLibrary);
+
+	cout << "Original library:" << endl << library << endl;
+	cout << "Modified library:" << endl << newLibrary << endl;
+
+	library = newLibrary;												// Update original database
+
+	cout << "Library after the assignment:" << endl << library << endl;
 }

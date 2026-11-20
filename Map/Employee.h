@@ -1,8 +1,15 @@
-//
-// Created by arch_dave on 11/16/26.
-//
+#pragma once
+#include <string>
+#include <iostream>
 
-#ifndef CPP_PROJECTS_EMPLOYEE_H
-#define CPP_PROJECTS_EMPLOYEE_H
-
-#endif //CPP_PROJECTS_EMPLOYEE_H
+class Employee {
+public:
+    std::string name;
+    std::string position;
+    int age;
+    Employee(std::string n, std::string p, int a):name(n),position(p),age(a) {}
+    friend std::ostream& operator<<(std::ostream& out ,const Employee& e) {
+        out << e.name << ", " << e.position<< ", " << e.age;
+        return out;
+    }
+};

@@ -91,4 +91,12 @@ public:
         }
         return nullptr;
     }
+    friend std::ostream& operator<<(std::ostream& out, const Map& m) {
+        Node* tail = m.head;
+        while (tail != nullptr) {
+            out << tail->key <<" || "<< tail->value << "\n";
+            tail = tail->next;
+        }
+        return out;
+    }
 };
