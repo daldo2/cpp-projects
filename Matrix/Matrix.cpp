@@ -90,33 +90,13 @@ int Matrix::getReferences() const {
 }
 
 Matrix Matrix::operator+(const Matrix& other)const {
-    int rows = getRows();
-    int cols = getCols();
-    if (other.getCols() != cols || other.getRows() != rows) {
-        throw IncorrectDimensions();
-    }
-    Matrix result(rows,cols);
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j<cols; j++) {
-            double addition = read(i,j) + other.read(i,j);
-            result.block->data[i][j]= addition;
-        }
-    }
+    Matrix result = *this;
+    result += other;
     return result;
 }
 Matrix Matrix::operator-(const Matrix& other)const{
-    int rows = getRows();
-    int cols = getCols();
-    if (other.getCols() != cols || other.getRows() != rows) {
-        throw IncorrectDimensions();
-    }
-    Matrix result(rows,cols);
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j<cols; j++) {
-            double difference = read(i,j) - other.read(i,j);
-            result.block->data[i][j]= difference;
-        }
-    }
+    Matrix result = *this;
+    result -= other;
     return result;
 }
 Matrix Matrix::operator*(const Matrix& other)const{
@@ -140,46 +120,36 @@ Matrix Matrix::operator*(const Matrix& other)const{
     return result;
 }
 
-Matrix& Matrix::operator+=(const Matrix& other){
-	if (getReferences() == 1){
-		int rows = getRows();
-		int cols = getCols();
-		if (other.getCols() != cols || other.getRows() != rows) {
-			throw IncorrectDimensions();
-		}
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j<cols; j++) {
-				double addition = read(i,j) + other.read(i,j);
-				block->data[i][j]= addition;
-			}
-		}
-		return *this;
-	}
-	
-	Matrix result = *this + other;
-	*this = result;
-	return *this;
+Matrix& Matrix::operator+=(const Matrix& other) {
+    detach();
+    int rows = getRows();
+    int cols = getCols();
+    if (other.getCols() != cols || other.getRows() != rows) {
+        throw IncorrectDimensions();
+    }
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j<cols; j++) {
+            double addition = read(i,j) + other.read(i,j);
+            block->data[i][j]= addition;
+        }
+    }
+    return *this;
 }
 
 Matrix& Matrix::operator-=(const Matrix& other){
-	if (getReferences() == 1){
-		int rows = getRows();
-		int cols = getCols();
-		if (other.getCols() != cols || other.getRows() != rows) {
-			throw IncorrectDimensions();
+    detach();
+	int rows = getRows();
+	int cols = getCols();
+	if (other.getCols() != cols || other.getRows() != rows) {
+		throw IncorrectDimensions();
+	}
+	 for (int i = 0; i < rows; i++) {
+		for (int j = 0; j<cols; j++) {
+			double difference = read(i,j) - other.read(i,j);
+			block->data[i][j]= difference;
 		}
-		 for (int i = 0; i < rows; i++) {
-			for (int j = 0; j<cols; j++) {
-				double difference = read(i,j) - other.read(i,j);
-				block->data[i][j]= difference;
-			}
-		 }
-		 return *this;
 	 }
-	
-	Matrix result = *this - other;
-	*this = result;
-	return *this;
+	 return *this;
 }
 Matrix& Matrix::operator*=(const Matrix& other){
     Matrix result = *this * other;

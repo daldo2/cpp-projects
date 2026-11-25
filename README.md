@@ -51,15 +51,17 @@ with element access through a proxy `Cell` class, exceptions for bad index /
 dimensions / file, and reading from a CSV file (`read.csv`).
 **Files:** `Matrix.h`, `Matrix.cpp`, `TestMatrix.cpp`, `read.csv`
 
-### 6. [`Map/`](Map/) — Template map (C++) — *work in progress*
+### 6. [`Map/`](Map/) — Template map (C++)
 
-`Map<K, V>` template on a linked list (copying, assignment, adding and finding keys).
-Not built yet: `Employee.h` used by the test is still empty.
+`Map<K, V>` template on a linked list (copying, assignment, adding and finding keys),
+used as an employee database and a library of books. `add` throws `DuplicateKey`
+for an existing key, `find` returns `nullptr` for a missing one.
+**Files:** `Map.h`, `Employee.h`, `Book.h`, `TestMap.cpp`
 
 ## Build everything (CMake)
 
 ```sh
 cmake -S . -B build
 cmake --build build
-cmake --build build --target valgrind_matrix   # or valgrind_stack_c, valgrind_stack_cpp, valgrind_complex_numbers, valgrind_poly
+cmake --build build --target valgrind_matrix   # or valgrind_stack_c, valgrind_stack_cpp, valgrind_complex_numbers, valgrind_poly, valgrind_map
 ```

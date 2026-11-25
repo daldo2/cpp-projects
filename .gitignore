@@ -12,6 +12,7 @@ a.out
 # Compiled executables (no extension) produced by gcc/make
 stack/TestStack
 stack/stack
+Map/TestMap
 
 # IDE / editor
 .idea/

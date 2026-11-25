@@ -15,7 +15,7 @@ add_subdirectory(Stack_cpp)
 add_subdirectory(Complex_numbers)
 add_subdirectory(Polynomial)
 add_subdirectory(Matrix)
-# Map/ is work in progress (Employee.h is still empty), so it is not built yet.
+add_subdirectory(Map)
 # lecture_examples/ is not in the repository; build it only when present locally.
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lecture_examples/CMakeLists.txt)
     add_subdirectory(lecture_examples)
@@ -24,7 +24,7 @@ endif()
 find_program(VALGRIND_EXECUTABLE valgrind)
 
 if(VALGRIND_EXECUTABLE)
-    foreach(program_target IN ITEMS stack_c stack_cpp complex_numbers poly matrix)
+    foreach(program_target IN ITEMS stack_c stack_cpp complex_numbers poly matrix map)
         add_custom_target(valgrind_${program_target}
             COMMAND ${VALGRIND_EXECUTABLE}
                 --leak-check=full
